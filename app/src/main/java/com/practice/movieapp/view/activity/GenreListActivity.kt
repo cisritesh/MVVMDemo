@@ -2,11 +2,9 @@ package com.practice.movieapp.view.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.lifecycle.LiveData
 import com.practice.movieapp.R
 import com.practice.movieapp.viewmodel.GenreListViewModel
 import androidx.lifecycle.ViewModelProviders
-import com.practice.movieapp.model.GenreList
 import androidx.recyclerview.widget.RecyclerView;
 import com.practice.movieapp.model.Genre
 import com.practice.movieapp.view.adapter.GenreListAdapter
@@ -35,8 +33,10 @@ class GenreListActivity : AppCompatActivity() {
         genreListViewModel = ViewModelProviders.of(this).get(GenreListViewModel::class.java!!)
         genreListViewModel.init()
         genreListViewModel.getGenresRepository()?.observe(this, Observer {
-            var genre: List<Genre> = it!!.genres
-            listOfGenre.addAll(genre)
+            var genre: List<Genre>? = it?.genres
+            if (genre != null) {
+                listOfGenre.addAll(genre)
+            }
             genreListAdapter?.notifyDataSetChanged()
 
         })

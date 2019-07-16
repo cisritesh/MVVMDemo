@@ -3,6 +3,7 @@ package com.practice.movieapp.network
 
 import androidx.lifecycle.LiveData
 import com.practice.movieapp.model.GenreList
+import com.practice.movieapp.model.MovieList
 import retrofit2.Call
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -17,6 +18,10 @@ public interface TmdbApiServices {
     fun getGenres(@Query ("api_key") api_key: String): Call<GenreList>
 
 
+    @GET("discover/movie")
+    fun getMoviesFromGenre(@Query ("api_key") api_key: String, @Query ("with_genres") genreId: String): Call<MovieList>
 
+    @GET("movie/{COMPANY_ID}")
+    fun getMovieDetails(@Query("api_key") apiKey: String, @Query("movie_id") movieId: String)
 
 }
