@@ -4,6 +4,7 @@ package com.practice.movieapp.repository
 import androidx.lifecycle.MutableLiveData
 
 import com.practice.movieapp.model.GenreList
+import com.practice.movieapp.model.MovieDetails
 import com.practice.movieapp.model.MovieList
 
 import com.practice.movieapp.network.RetrofitService
@@ -57,6 +58,28 @@ class TmdbRepository {
 
 
             override fun onFailure(call: Call<MovieList>, t: Throwable) {
+                movieData.setValue(null)
+            }
+        })
+        return movieData
+    }
+
+
+    fun getMoviesDetails(movieID: String, key: String): MutableLiveData<MovieDetails> {
+        val movieData = MutableLiveData<MovieDetails>()
+        tmdbApiServices.getMovieDetails(movieID, key).enqueue(object : Callback<MovieDetails> {
+            override fun onResponse(
+                call: Call<MovieDetails>,
+                response: Response<MovieDetails>
+            ) {
+                if (response.isSuccessful()) {
+                    movieData.setValue(response.body())
+                }
+
+            }
+
+
+            override fun onFailure(call: Call<MovieDetails>, t: Throwable) {
                 movieData.setValue(null)
             }
         })
